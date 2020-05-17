@@ -28,7 +28,9 @@ gulp.task("build:js", function () {});
 
 gulp.task("build:css", function () {});
 
-gulp.task("deploy", function () {});
+gulp.task("deploy", function () {
+  // write your script here to deploy app to your server
+});
 
 gulp.task(
   "build",

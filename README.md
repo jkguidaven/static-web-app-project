@@ -20,6 +20,14 @@ yarn install
 yarn start
 ```
 
+## To build
+
+```bash
+yarn build
+```
+
+Output files are generated in dist folder
+
 ## Continuous Integration
 
 The project uses tools such as `eslint`, `prettier` & `editorconfig` to ensure quality of

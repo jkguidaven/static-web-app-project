@@ -1,5 +1,5 @@
 {
-  "name": "Web Application",
+  "name": "static-web-app",
   "version": "1.0.0",
   "description": "Built using Nunjucks render",
   "scripts": {

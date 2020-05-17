@@ -1,32 +1,67 @@
 const gulp = require("gulp");
 const del = require("del");
+const concat = require("gulp-concat");
+const terser = require("gulp-terser");
+const postcss = require("gulp-postcss");
+const sass = require("gulp-sass");
+sass.compiler = require("node-sass");
 const nunjucksRender = require("gulp-nunjucks-render");
+const cssnano = require("cssnano");
+const uncss = require("postcss-uncss");
+const autoprefixer = require("autoprefixer");
+
+const sourceFolder = "source";
+const outputFolder = "dest";
 
 gulp.task("clean", function () {
-  return del("dist/**", { force: true });
+  return del(`${outputFolder}/**`, { force: true });
 });
 
 gulp.task("build:html", function () {
-  // Gets .html and .nunjucks files in pages
-  return (
-    gulp
-      .src("source/pages/**/*.+(html|nunjucks|njk)")
-      // Renders template with nunjucks
-      .pipe(
-        nunjucksRender({
-          path: ["source/templates"],
-        })
-      )
-      // output files in app folder
-      .pipe(gulp.dest("dist"))
-  );
+  return gulp
+    .src(`${sourceFolder}/pages/**/*.+(html|nunjucks|njk)`)
+    .pipe(
+      nunjucksRender({
+        path: [`${sourceFolder}/templates`],
+      })
+    )
+    .pipe(gulp.dest(outputFolder));
 });
 
-gulp.task("build:assets", function () {});
+gulp.task("build:assets", function () {
+  return gulp
+    .src([`${sourceFolder}/static/assets/**`])
+    .pipe(gulp.dest(`${outputFolder}/assets`));
+});
 
-gulp.task("build:js", function () {});
+gulp.task("build:js", function () {
+  return gulp
+    .src([
+      `${sourceFolder}/static/js/vendor/*.js`,
+      `${sourceFolder}/static/js/main.js`,
+    ])
+    .pipe(concat("js/bundle.js"))
+    .pipe(terser())
+    .pipe(gulp.dest(outputFolder));
+});
 
-gulp.task("build:css", function () {});
+gulp.task("build:css", function () {
+  return gulp
+    .src(`${sourceFolder}/static/css/**.+(css|scss)`)
+    .pipe(sass().on("error", sass.logError))
+    .pipe(concat("css/styles.css"))
+    .pipe(
+      postcss([
+        uncss({
+          html: [`${outputFolder}/*.html`],
+          timeout: 100,
+        }),
+        autoprefixer,
+        cssnano,
+      ])
+    )
+    .pipe(gulp.dest(outputFolder));
+});
 
 gulp.task("deploy", function () {
   // write your script here to deploy app to your server
@@ -34,5 +69,5 @@ gulp.task("deploy", function () {
 
 gulp.task(
   "build",
-  gulp.series(["clean", "build:assets", "build:html", "build:js", "build:css"])
+  gulp.series(["clean", "build:html", "build:js", "build:assets", "build:css"])
 );

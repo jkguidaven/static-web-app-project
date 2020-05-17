@@ -1,0 +1,21 @@
+{
+  "name": "Web Application",
+  "version": "1.0.0",
+  "description": "Built using Nunjucks render",
+  "scripts": {
+    "lint:eslint": "eslint --fix",
+    "lint": "yarn lint:eslint",
+    "build": "yarn lint && gulp build",
+    "deploy": "yarn build && gulp deploy"
+  },
+  "author": "James Kenneth A. Guidaven",
+  "devDependencies": {
+    "del": "^5.1.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "gulp": "^4.0.2",
+    "gulp-nunjucks-render": "^2.2.3",
+    "prettier": "^2.0.5"
+  }
+}

@@ -71,3 +71,7 @@ gulp.task(
   "build",
   gulp.series(["clean", "build:html", "build:js", "build:assets", "build:css"])
 );
+
+gulp.task("watch", function () {
+  return gulp.watch(`${sourceFolder}/**`, gulp.series(["build"]));
+});

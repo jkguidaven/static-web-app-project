@@ -13,10 +13,13 @@ This project is built using Nunjucks templates and rendered to static file.
 # 1. Clone this repository.
 git clone git@github.com:jkguidaven/static-web-app-project.git
 
-## 2. Install dependencies
+# 2. cd to folder
+cd static-web-app-project
+
+# 3. Install dependencies
 yarn install
 
-## 3. Build template and watch new changes in
+# 4. Build template and watch new changes in
 yarn start
 ```
 
